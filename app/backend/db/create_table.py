@@ -21,7 +21,7 @@ if __name__ == "__main__":
     conn = psycopg2.connect(url_for_postgres())
     conn.autocommit = True
     cursor = conn.cursor()
-    cursor.execute("CREATE DATABASE Users;")
+    cursor.execute("CREATE DATABASE UsersTel;")
     cursor.close()
     conn.close()
     Base.metadata.create_all(engine)

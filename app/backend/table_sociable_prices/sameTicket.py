@@ -9,7 +9,7 @@ class ReaderXlsx:
         self.df = pd.read_excel("./prices.xlsx")
 
     def search(self, a: str):
-        res_likes = 1
+        res_likes = 0
         res_name = None
         res_price = None
         res_value = None
@@ -21,14 +21,16 @@ class ReaderXlsx:
                 continue
             price = self.df.loc[i, 'Цена региона-аналога (Ростова-на-Дону)']
             temp_dist = cosDist(a.lower(), name.lower())
-            print(temp_dist, res_likes)
-            if temp_dist < res_likes:
+            #print(temp_dist, a.lower(), name.lower())
+            if temp_dist > res_likes:
                 res_likes = temp_dist
                 res_name = name
                 res_price = price
                 res_value = value
             
         print(res_likes, res_name, res_price, res_value)
+        return res_price
+
 if __name__ == "__main__":
     a = ReaderXlsx()
     #for i, x in a.df.iterrows:
