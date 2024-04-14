@@ -9,14 +9,14 @@ def get_data(img_path):
     # Начальные переменные, необходимые для дальнейшей работы
     data_dict = {}
     image = cv2.imread(img_path)
-
+    #print(image)
 
     
     result = subprocess.check_output(['inference', 'infer', '--input', img_path, '--api-key', 'hXHzHoDbAJs5k5oQlZQN', '--model_id', 'price-tag-detection-r5jlv/1']).decode("utf-8")
     result = result[(result.find('\n')):]
 
     result = ast.literal_eval(result)
-
+    #print(result)
     #Названия разметки, сами разметки и два объекта классов LabelAnnotator и BoundingBoxAnnotator, которые и производят аннотацию ценников.
     labels = [item["class"] for item in result["predictions"]]
     detections = sv.Detections.from_inference(result)
@@ -29,11 +29,13 @@ def get_data(img_path):
         scene=image.copy(), detections=detections)
     annotated_image = label_annotator.annotate(
         scene=annotated_image.copy(), detections=detections, labels=labels)
+    
+    #print(annotated_image)
 
     #Задаем настройки считывателю текста
     reader = easyocr.Reader(['ru'])
 
-
+    
     #часть, которая определяет координаты разметки, обрезает фотографию, считывает текст, записывает в data_dict и так со всеми аннотациями.
     for i, detection in enumerate(detections.xyxy):
         try:
@@ -42,7 +44,7 @@ def get_data(img_path):
 
 
             result = reader.readtext(cropped_img, paragraph=True, detail=0)
-
+            #print(result)
             if result:
                 data_dict[i+1] = result
             else:
@@ -51,6 +53,6 @@ def get_data(img_path):
             print(f"Error processing annotation {i+1}")
     
 
-            
+    #print(data_dict)
     return data_dict
 

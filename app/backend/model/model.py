@@ -1,10 +1,17 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
+from typing import Annotated
 
+#from fas
 
 #sys.path.append('../..')
 
-class ValUser(BaseModel):
-    phone: str = Field(max_length=50)
-    email: str = Field(max_length=50)
+class File(BaseModel):
+    #name: str
+    #content_type: str
+    photo: bytes
 
+class field(BaseModel):
+    address: str = None
+    phone: str = None
+    email: str = None
 

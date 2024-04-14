@@ -1,12 +1,14 @@
-from cv_data import get_data
-from cosine_similiarity import cos_check
+from priceChecker.cv_data import get_data
+from priceChecker.cosine_similiarity import cos_check
 import json
-from price import get_price
+from priceChecker.price import get_price
 import re
 import os
 
-def price_check(img_path):
+def price_check(img_path, path_soc_prices):
+    #print(img_path)
     cv_data = get_data(img_path)
+    #print(cv_data)
     try:
         name = cv_data[1][0]
     except KeyError:
@@ -21,7 +23,7 @@ def price_check(img_path):
 
     
     #загрузка json файла
-    with open("rostov_prices.json", "r") as json_file:
+    with open(path_soc_prices, "r") as json_file:
         data = json.load(json_file)
     
     #базовые переменные
@@ -50,4 +52,4 @@ def price_check(img_path):
     return name, best_coincidence, count, soc_price_naming, real_price
 
 if __name__ == "__main__":
-    print(price_check(os.path.abspath("../test.jpg")))
+    print(price_check(os.path.abspath("/home/Semka/hackathon/hakatopItRev/app/backend/files/novorossiysk|938498394|artsdaSEDF|2024-04-13.jpg")))
