@@ -13,6 +13,7 @@ def submit(input_folder, output_file):
     
     for file_name in listdir(dataset_dir):
         print(file_name)
+        
         res = price_check(abspath(f"./{input_folder}/{file_name}"), abspath("./priceChecker/rostov_prices.json"))
         data["Наименование файла"].append(file_name)
         data["Наименование товара"].append(res[1])
@@ -28,8 +29,9 @@ def submit(input_folder, output_file):
                 break
         data["Категория продукта"] = res_temp
         data["Цена"].append(res[4])
-    df = DataFrame(data)
-    df.to_csv(output_file)
+        print(data)
+        df = DataFrame(data)
+        df.to_csv(output_file)
 
 if __name__ == "__main__":
     folder = input()
